@@ -13,7 +13,7 @@ package tiendarpg;
 public class Item {
 
     /**
-     * @param args the command line arguments
+     * 
      */
     protected  String color;
     protected  String nombre;
@@ -24,5 +24,5 @@ public class Item {
     
     
     public Item(){
-    }
+    }  
 }

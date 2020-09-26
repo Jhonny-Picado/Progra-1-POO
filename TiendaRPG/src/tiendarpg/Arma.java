@@ -27,6 +27,6 @@ public class Arma extends Item{
 
     //Getter
     public String dimeDatos(){
-        return "El color del arma es: "+ color +", Nombre: "+ nombre+ ", Precio: "+precio+ ", Nivel: "+nivel+", Poder: "+poder+ ", Tipo:"+tipo+", Peso"+peso;
+        return "El color del arma es: "+ color +", Nombre: "+ nombre+ ", Precio: "+precio+ ", Nivel: "+nivel+", Poder: "+poder+ ", Tipo: "+tipo+", Peso: "+peso;
     }
 }
