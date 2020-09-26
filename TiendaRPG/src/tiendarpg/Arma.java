@@ -11,8 +11,8 @@ package tiendarpg;
  */
 public class Arma extends Item{
     
-    private String tipo;
-    private double peso;
+    protected String tipo;
+    protected double peso;
     
     public Arma(String nombre, String color, double precio, int nivel, int poder, String tipo, double peso){
         
