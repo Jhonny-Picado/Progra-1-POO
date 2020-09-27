@@ -17,12 +17,12 @@ public class Item {
      */
     protected  String color;
     protected  String nombre;
-    protected  double precio;
+    protected  int precio;
     protected  int nivel;
     protected  int poder;
     
     //
-    public Item(String nombre,String color,double precio,int nivel, int poder){
+    public Item(String nombre,String color,int precio,int nivel, int poder){
         this.nombre=nombre;
         this.color=color;
         this.precio=precio;
@@ -33,7 +33,7 @@ public class Item {
     //Get que muestra los atributos comunes de los items
     public String getDatos(){
         
-        return "El color del arma es: "+ color +", Nombre: "+ nombre+ ", Precio: "
+        return "El color del item es: "+ color +", Nombre: "+ nombre+ ", Precio: "
         +precio+ ", Nivel: "+nivel+", Poder: "+poder;
     }
 }
