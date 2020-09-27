@@ -6,26 +6,23 @@
 package tiendarpg;
 
 /**
- *
+ * Clase de la categoría consumible
  * @author Jhonny Picado Vega
  */
-public class Arma extends Item{
+public class Consumible extends Item {
     
-    //Atributos propios de la clase arma 
-    private String tipo;
-    private double peso;
+    private String tipo; 
     
-    //Constructor que modifica los atributos de Arma
-    public Arma(String nombre, String color, double precio, int nivel, int poder, String tipo, double peso){
+    //Constructor que modifica los atributos de Consumible
+    public Consumible(String nombre, String color, double precio, int nivel, int poder, String tipo){
         
         super(nombre,color,precio,nivel,poder);
         this.tipo= tipo;
-        this.peso=peso;
     }
-    
+
     //toString, muestra el contenido de los atributos de Arma
     @Override
     public String toString  (){ //Getter
-        return super.getDatos()+" tipo: "+ tipo+ ",  Peso: "+peso;
+        return super.getDatos()+" tipo: "+ tipo;
     }
 }
