@@ -9,7 +9,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.*;
-import org.json.simple.*;
+import org.json.simple.JSONObject;
 /**
  * @author Christopher Vindas
  * @author Jhonny Picado Vega
@@ -45,11 +45,11 @@ public class Controlador {
         //Parte del API
         
         OkHttpClient client = new OkHttpClient();
-    
+
         Request request = new Request.Builder()
-	.url("https://walmart.p.rapidapi.com/products/get-details?usItemId=55885487")
+	.url("https://magic-aliexpress1.p.rapidapi.com/api/category/200001081/products?targetCurrency=EUR&fastDeliveryDays=3&shipToCountry=FR&maxSalePrice=10&lg=fr")
 	.get()
-	.addHeader("x-rapidapi-host", "walmart.p.rapidapi.com")
+	.addHeader("x-rapidapi-host", "magic-aliexpress1.p.rapidapi.com")
 	.addHeader("x-rapidapi-key", "8ac4177326mshd5244b602b18176p145d17jsn505c099c181c")
 	.build();
 
@@ -59,9 +59,6 @@ public class Controlador {
         JSONObject object = new JSONObject();
         object.put("Hola",response.body().string());
         System.out.println("\n"+"\n"+object.values());
-        
-        
-        System.out.println("\n"+"\n"+object.get("data"));//Acá debería agarrar los contenidos de la etiqueta data del JSON, pero no lo hace, más o menos va por ahí 
         
         
         
