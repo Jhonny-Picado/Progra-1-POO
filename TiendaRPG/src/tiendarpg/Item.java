@@ -33,7 +33,13 @@ public class Item {
     //Get que muestra los atributos comunes de los items
     public String getDatos(){
         
-        return "El color del item es: "+ color +", Nombre: "+ nombre+ ", Precio: "
+        return "Color: "+ color +", Nombre: "+ nombre+ ", Precio: "
         +precio+ ", Nivel: "+nivel+", Poder: "+poder;
+    }
+    
+    public void setnombre(String name){
+        
+        this.nombre=name;
+        
     }
 }

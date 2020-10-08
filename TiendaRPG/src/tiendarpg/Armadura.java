@@ -13,10 +13,10 @@ public class Armadura extends Item{
     
     //Atributos propios de la clase arma 
     
-    private int tamaño;
+    private String tamaño;
     private String material;
     //Constructor que modifica los atributos de Arma
-    public Armadura(String nombre, String color, int precio, int nivel, int poder, String tipo,int tamaño, String material){
+    public Armadura(String nombre, String color, int precio, int nivel, int poder, String tipo,String tamaño, String material){
         
         
         

@@ -18,9 +18,10 @@ public class Tienda {
     private List<Item> inventarioTienda;
     private  int j;
     private String casa;
+    
     public Tienda(List<Item> items) {
         nombre ="Sogeking Store";
-        dinero=10000000;
+        dinero=54023821;
         inventarioTienda=items;
     }
     
@@ -35,21 +36,12 @@ public class Tienda {
         System.out.println("El nombre de la tienda es:" + nombre+ "Dinero: "+dinero);
         int cont = 0;
         for (Item i : inventarioTienda){
-            System.out.println("El item de la tienda # "+cont+"es: "+i);
+            System.out.println(i);
             cont++;
         }
        return "El nombre de la tienda es:" + nombre+ "Dinero: "+dinero;
     }
-    
-    public void algo(String yuen){
-        
-        this.casa=yuen;
-    }
-    
-    public String retorno(){
-    
-        return casa; 
-}
+
 
     
 }
