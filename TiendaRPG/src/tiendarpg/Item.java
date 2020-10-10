@@ -21,7 +21,7 @@ public class Item {
     protected  int nivel;
     protected  int poder;
     
-    //
+    
     public Item(String nombre,String color,int precio,int nivel, int poder){
         this.nombre=nombre;
         this.color=color;
@@ -41,5 +41,9 @@ public class Item {
         
         this.nombre=name;
         
+    }
+    
+    public int getPrecio(){
+        return this.precio;
     }
 }
