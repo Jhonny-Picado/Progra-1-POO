@@ -9,7 +9,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,26 +17,53 @@ import org.json.JSONObject;
  * @author Christopher Vindas
  * @author Jhonny Picado Vega
  */
-public class Controlador {
+
+//Clase que inicializa los items, llama al API, transforma los datos del Json y demás.
+public class ControladorInicial {
     
-    public static List<Item> items = new ArrayList<>();
-    
-    public static void main(String[] args) throws IOException{
+    public static List<Item> Controlador() throws IOException{
         
         //Listas que contendrán los datos de la api convertidos
-        String nombres[] = new String[21];
-        String colores[] = {"Amarillo", "Morado", "Azul", "Rojo", "Verde","Cafe","Negro", "Blanco", "Celeste", "Gris", "Turquesa", "Naranja", "Violeta", "Dorado","Rosado","Fucsia","Salmon","Marron","Beige","Lila","Cian"};
-        String tipos[] = new String [21];
-        int precios[] = new int[21];
-        int niveles[] = new int [21];
-        int poderes[] =new int[21];
-        double pesos[] = new double [21];
-        String materiales[] = new String [21];
-        String tamaños[] = new String [21];
-        int temporal = 0;   //Variable utilizada para la conversion de enteros del JSON
+        String nombres[];
+        String colores[];
+        String tipos[];
+        int precios[];
+        int niveles[];
+        int poderes[];
+        double pesos[];
+        String materiales[];
+        String tamaños[];
         
+        //Lista de items que llenaran los inventarios de la tienda y personaje
+        List<Item> items;
+
+       
+        //Se deja el JSONArray en la variable arreglo
+        JSONArray arreglo = ApiJson();        
         
-        //Codigo del API y JSON
+        //Se llaman a los metodos que hacen las conversiones de los datos del API 
+        nombres = Nombres(arreglo);
+        colores = Colores();
+        precios = Precios(arreglo);
+        niveles = Niveles(arreglo);
+        poderes = Poderes(arreglo);
+        pesos = Pesos(arreglo);
+        tipos = Tipos(arreglo);
+        tamaños = Tamaños(arreglo);
+        materiales= Materiales(arreglo);
+        
+        //Se cre el arreglo de items de las tres categorias
+        items = ArregloItems(nombres, colores, precios, niveles, poderes, tipos, pesos, tamaños, materiales);
+
+
+        return items;
+      
+    }
+    
+    //Se da el request del API y se pasa a un Json
+    //Codigo del API y JSON
+    public static JSONArray ApiJson() throws IOException{
+          
         OkHttpClient client = new OkHttpClient();
    
         Request request = new Request.Builder()
@@ -51,22 +77,57 @@ public class Controlador {
         //System.out.println(responseBody.string());
        
         JSONObject json=new JSONObject(responseBody.string());
-        JSONArray arr = json.getJSONArray("items");
+        JSONArray arregloJson = json.getJSONArray("items");
+        return arregloJson;   
+    }
+    
+    //Metodo que pasa los nombre del JSON al array de nuestros nombres de Items
+    public static String[] Nombres(JSONArray arreglo){
+        String nombres[] = new String[27];
         
         for (int i=0; i<nombres.length; i++){
-            nombres[i]= arr.getJSONObject(i).getString("seeAllName");
+            nombres[i]= arreglo.getJSONObject(i).getString("seeAllName");
         }
+        return nombres;
+    }
+    
+    //Metodo que pasa los colores al Array de nuestros items
+    public static String[] Colores(){
+        
+        String coloresAuxiliar[]= new String[27];
+        String colores[] = {"Amarillo", "Morado", "Azul", "Rojo", "Verde","Cafe","Negro", "Blanco", "Celeste", "Gris", 
+                            "Turquesa", "Naranja", "Violeta", "Dorado","Rosado","Fucsia","Salmon","Marron","Beige","Lila"};
+        int j;
+        
+        for (int i=0; i<coloresAuxiliar.length; i++){
+            j=(int)(Math.random()*19+1);
+            coloresAuxiliar[i]=colores[j];
+        }
+        return coloresAuxiliar;
+    }
+     
+    //Metodo que pasa los precios del JSON al array de nuestros nombres de Items
+    public static int[] Precios(JSONArray arreglo){
+        int temporal;
+        int precios[] = new int[27];
         
         for (int i=0; i<precios.length; i++){
             
-            temporal= arr.getJSONObject(i).getInt("numReviews");
+            temporal= arreglo.getJSONObject(i).getInt("numReviews");
             precios[i]=temporal*(i+1);
         }
-        
+        return precios;
+    }
+    
+    
+    //Metodo que pasa los niveles del JSON al array de nuestros nombres de Items
+    public static int[] Niveles(JSONArray arreglo){
+        int niveles[] = new int[27];
+        int temporal;
         
         for (int i=0; i<niveles.length; i++){
             
-            temporal = arr.getJSONObject(i).getInt("quantity");
+            temporal = arreglo.getJSONObject(i).getInt("quantity");
             
             while (temporal>9){
                 temporal/=10;
@@ -74,12 +135,19 @@ public class Controlador {
             niveles[i]=temporal;        
         }
         
+        return niveles;
+    } 
+    
+    //Metodo que pasa los poderes del JSON al array de nuestros nombres de Items
+    public static int[] Poderes(JSONArray arreglo){
+        int poderes[] = new int[27];
+        int temporal;
         
         for (int i=0; i<poderes.length; i++){
             
             temporal=0;
             int tempaux;
-            tempaux= arr.getJSONObject(i).getInt("usItemId");
+            tempaux= arreglo.getJSONObject(i).getInt("usItemId");
             
             while (tempaux>0){
                 temporal += (tempaux % 10);
@@ -87,20 +155,41 @@ public class Controlador {
             }    
             poderes[i]=temporal;
         }
+        
+        return poderes;
+    }
+    
+    //Metodo que retorna los pesos de las armaduras
+    public static double[] Pesos(JSONArray arreglo){
+        double pesos[] = new double[27];
 
         for (int i=0; i<pesos.length; i++){
-            pesos[i] = arr.getJSONObject(i).getDouble("customerRating");
-        }
+            pesos[i] = arreglo.getJSONObject(i).getDouble("customerRating");
+        }    
+        return pesos;
+    }
+    
+    //Metodo que retorna los tipos al Array de nuestros items
+    public static String[] Tipos(JSONArray arreglo){
+        String tipos[] = new String[27];
         for (int i=0; i<tipos.length; i++){
-            tipos[i] = arr.getJSONObject(i).getString("department");
+            tipos[i] = arreglo.getJSONObject(i).getString("department");
         }
+        return tipos;
+    }
+    
+    //Metodo que retorna los tamaños de las armaduras
+    public static String[] Tamaños(JSONArray arreglo){
+    
+        String tamaños[]= new String[27];
+        int temporal;
         
         for (int i=0; i<tamaños.length; i++){
             
             String aux;
             String [] tamaño = {"S", "M", "L", "XL", "XXL"};
             
-            aux = arr.getJSONObject(i).getString("title");
+            aux = arreglo.getJSONObject(i).getString("title");
             
             int j = 0;
             
@@ -132,37 +221,55 @@ public class Controlador {
             
             tamaños[i]=tamaño[temporal];
         }
-        
+        return tamaños;  
+    }
     
-        for (int i=0; i<materiales.length; i++){
-            
-            String [] materialesaux = {"cuero", "madera", "acero", "hueso", "algodón", "fibras"};
-            temporal = (arr.getJSONObject(i).getString("title")).length();
-            
-            if ( temporal<20 ){
-                materiales[i]=materialesaux[0];
-                
-            }
-            else if (temporal>19 && temporal <40){
-                materiales[i]=materialesaux[1];
-            }
-            else if (temporal>39 && temporal <60){
-                materiales[i]=materialesaux[2];
-            }
-            else if (temporal>59 && temporal<80){
-                materiales[i]=materialesaux[3];
-            }
-            else if (temporal>79 && temporal<100){
-                materiales[i]=materialesaux[4];
-            }
-            else {
-                materiales[i]=materialesaux[5];
-            }
-            
-        }
+    
+    //Metodo que retorna los tamaños de las armaduras
+    public static String[] Materiales(JSONArray arreglo){
+    
+        String materiales[]= new String[27];
         
-
-        for (int i=0; i<21; i++){
+        int temporal; 
+    
+            for (int i=0; i<materiales.length; i++){
+            
+                String [] materialesaux = {"cuero", "madera", "acero", "hueso", "algodón", "fibras"};
+                temporal = (arreglo.getJSONObject(i).getString("title")).length();
+            
+                if ( temporal<20 ){
+                    materiales[i]=materialesaux[0];
+                }
+                
+                else if (temporal>19 && temporal <40){
+                    materiales[i]=materialesaux[1];
+                }
+                
+                else if (temporal>39 && temporal <60){
+                    materiales[i]=materialesaux[2];
+                }
+                
+                else if (temporal>59 && temporal<80){
+                    materiales[i]=materialesaux[3];
+                }
+                
+                else if (temporal>79 && temporal<100){
+                    materiales[i]=materialesaux[4];
+                }
+            
+                else {
+                materiales[i]=materialesaux[5];
+                }
+            }
+        return materiales;
+    } 
+    
+    //Metodo que se encarga de realizar el arreglo de items del programa
+    public static List<Item> ArregloItems (String[] nombres, String[] colores, int[] precios, int[] niveles, int[] poderes, String[] tipos, double[] pesos, String[] tamaños, String[] materiales){
+         
+        List<Item> items = new ArrayList<>();
+        
+        for (int i=0; i<27; i++){
             
             if ( i<7 ){
                 Item arma= new Arma(nombres[i], colores[i], precios[i], niveles[i], poderes[i], tipos[i], pesos[i]);
@@ -178,11 +285,31 @@ public class Controlador {
                 items.add(armadura);
             }
         }
+        return items;
+    } 
+    
+    //Metodo que le brinda los productos iniciales de la tienda
+    public static List<Item> ProductosTienda(List<Item> items){
+            //Acá se le pasa los productos al inventario de la tienda y almaceno su direccion en inventarioTienda
+        List<Item> itemsTienda = new ArrayList<>();
         
-        Tienda inventarioTienda=new Tienda(items);
-        inventarioTienda.dimeInventario();
-
-//        System.out.println(Arrays.toString(tamaños));
-
+        for (int i=0; i<20; i++){
+            itemsTienda.add(i, items.get(i));
+        }
+    return itemsTienda;
     }
-}
+    
+    
+    //Metodo que retorna los items iniciales del jugador
+    public static List<Item> ItemsPersonaje(List<Item> items){
+            
+        List<Item> itemsPersonaje = new ArrayList<>();
+        
+        int j=0;
+        for(int i=20; i<27; i++){
+            itemsPersonaje.add(j, items.get(i));
+            j++;
+        }
+    return itemsPersonaje;
+    }
+}    
