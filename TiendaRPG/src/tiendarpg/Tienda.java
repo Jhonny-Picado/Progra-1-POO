@@ -5,43 +5,64 @@
  */
 package tiendarpg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Usuario
+ * @author Jhonny Picado Vega
  */
 public class Tienda {
     
-    private final String nombre;
+    private String nombre;
     private int dinero;
-    private List<Item> inventarioTienda;
-    private  int j;
-    private String casa;
+    private static List<Item> inventarioTienda;
+    private int indice;
+    private int contador;
+    public Item objecto;
+    
+    Tienda() {
+    }
+    
     
     public Tienda(List<Item> items) {
         nombre ="Sogeking Store";
-        dinero=54023821;
+        dinero = (int)(Math.random()*1000000+500000);
         inventarioTienda=items;
+        contador=20;
+    }
+
+
+    
+    public void ComprarTienda(Item item){
+        contador++;
+        dinero-=item.getPrecio();
+        inventarioTienda.add(item);
     }
     
-    public void Eliminaritem(int j){
-        this.j=j;
-        dinero+=inventarioTienda.get(j).precio;
-        inventarioTienda.remove(j);
+    public Item VenderTienda(int i){
         
+        this.dinero += inventarioTienda.get(i).getPrecio();
+        Item itemTemporal= inventarioTienda.get(i);
+        inventarioTienda.remove(i);
+        
+        return itemTemporal;
     }
 
     public String dimeInventario(){
         System.out.println("El nombre de la tienda es:" + nombre+ "Dinero: "+dinero);
-        int cont = 0;
         for (Item i : inventarioTienda){
-            System.out.println(i);
-            cont++;
+            System.out.println(i.toString());
         }
-       return "El nombre de la tienda es:" + nombre+ "Dinero: "+dinero;
+       return "El nombre de la tienda es:     " + nombre+ "    Dinero:    "+dinero;
     }
-
-
+    
+    public double dinero(){ 
+        return dinero;
+    }
+    
     
 }
+
+
+
