@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package tiendarpg;
-import GUI.Interfaz;
+import GUI.TiendaGUI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -13,12 +15,22 @@ import java.util.List;
  *
  * @author Usuario
  */
-public class ControladorLogica {
+public class ControladorLogica  implements ActionListener{
+    
+    
+    public static TiendaGUI inicializadorGUI;
+    public TiendaGUI vista;
+    
+    
+    public ControladorLogica(TiendaGUI interfaz){
+    this.vista = interfaz;
+    }
+    
+    
     public static void main(String[] args) throws IOException{
         List<Item> items;
         List<Item> itemsTienda;
         List<Item> itemsPersonaje;      
-        
         
         ControladorInicial inicializador = new ControladorInicial();
         
@@ -26,21 +38,19 @@ public class ControladorLogica {
 
         itemsTienda = inicializador.ProductosTienda(items); 
         Tienda inventarioTienda=new Tienda(itemsTienda); 
-        inventarioTienda.dimeInventario();
-        System.out.println("\n"+"\n");
+
         itemsPersonaje = inicializador.ItemsPersonaje(items);
         Personaje inventarioJugador= new Personaje(itemsPersonaje);
-        inventarioJugador.imprimirInventario();
-        System.out.println("\n"+"\n");
-  
-            
-           
-        Vender(6, inventarioTienda, inventarioJugador);
-        inventarioTienda.dimeInventario();
-        System.out.println("\n"+"\n");
-        inventarioJugador.imprimirInventario();
-
         
+        
+        TiendaGUI vista = new TiendaGUI();
+        NombreTienda(inventarioTienda);
+        ControladorLogica controladorGUI = new ControladorLogica(vista);
+        
+        
+        controladorGUI.vista.setVisible(true);
+        controladorGUI.vista.setLocationRelativeTo(null);
+
     }
     
     public static void Comprar(int i, Tienda invTienda, Personaje invPersonaje){
@@ -61,19 +71,13 @@ public class ControladorLogica {
         
     }
 
+    public static void NombreTienda(Tienda inventarioTienda){
+        inicializadorGUI.tituloTienda.setText(inventarioTienda.getnombre());
+    } 
 
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }              
 
-    public static void TitulosGUI(){
-        
-        public Interfaz 
-        
-
-    }
-        
-        
-        
-} 
-
-            
-            
-                      
+}
