@@ -26,7 +26,7 @@ public class Personaje {
     
     //Constructor por defeto
     Personaje() {
-        this.inventarioPersonaje = new ArrayList<Item>();
+        
     }
     
     
@@ -35,33 +35,41 @@ public class Personaje {
     
         //Inicializo los atributos con valores randoms
         this.vida = (int)(Math.random()*100+1);
-        this.dinero =(int)(Math.random()*1000000+500000);
+        this.dinero =(int)(Math.random()*20000+15000);
         this.agilidad =(int)(Math.random()*100+1);
         this.ataque = (int)(Math.random()*100+1);   
         this.nombre = "Sogeking";
         this.contador=7;
         
-       inventarioPersonaje=items;
+        inventarioPersonaje=items;
     }
 
-
+    
+    //Metodo comprar de la tienda
     public void ComprarPersonaje(Item item){
+        
+        if (item.getPrecio()>dinero){
+            System.out.println("No hay suficiente dinero");
+        }
+        else{
         dinero-=item.getPrecio();
         inventarioPersonaje.add(item);
+        }
     }
     
-    
+    //Metodo de vender un item de personaje
     public Item VenderPersonaje(int i){
         
         this.dinero += this.inventarioPersonaje.get(i).getPrecio();
+        
         Item itemTemporal=inventarioPersonaje.get(i);
+        
         inventarioPersonaje.remove(i);
         
         return itemTemporal;
     }
     
-    
-    
+
     public void imprimirInventario(){
         System.out.println("Personaje:     " + nombre+ "        Dinero:    "+dinero);
         for (Item i : inventarioPersonaje){

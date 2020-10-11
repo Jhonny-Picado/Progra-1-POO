@@ -70,19 +70,21 @@ public class ControladorInicial {
 	.url("https://walmart.p.rapidapi.com/products/list?sort=best_seller&zipcode=94066&page=1&cat_id=0&pref_store=2648%252C5434%252C2031%252C2280%252C5426")
 	.get()
 	.addHeader("x-rapidapi-host", "walmart.p.rapidapi.com")
-	.addHeader("x-rapidapi-key", "8ac4177326mshd5244b602b18176p145d17jsn505c099c181c")
+	.addHeader("x-rapidapi-key", "2ca9a8d581msha6e26d4e637cf04p15e528jsna84bd3d46010")
 	.build();
 
         ResponseBody responseBody = client.newCall(request).execute().body();        
-        //System.out.println(responseBody.string());
        
-        JSONObject json=new JSONObject(responseBody.string());
+        JSONObject json = new JSONObject(responseBody.string());
+        
         JSONArray arregloJson = json.getJSONArray("items");
+        
         return arregloJson;   
     }
     
     //Metodo que pasa los nombre del JSON al array de nuestros nombres de Items
     public static String[] Nombres(JSONArray arreglo){
+        
         String nombres[] = new String[27];
         
         for (int i=0; i<nombres.length; i++){
@@ -108,12 +110,18 @@ public class ControladorInicial {
      
     //Metodo que pasa los precios del JSON al array de nuestros nombres de Items
     public static int[] Precios(JSONArray arreglo){
+        
         int temporal;
         int precios[] = new int[27];
         
+        
         for (int i=0; i<precios.length; i++){
-            
+        
             temporal= arreglo.getJSONObject(i).getInt("numReviews");
+            
+            while(temporal>500){
+                temporal/=10;
+            }
             precios[i]=temporal*(i+1);
         }
         return precios;
@@ -171,10 +179,13 @@ public class ControladorInicial {
     
     //Metodo que retorna los tipos al Array de nuestros items
     public static String[] Tipos(JSONArray arreglo){
+        
         String tipos[] = new String[27];
+        
         for (int i=0; i<tipos.length; i++){
             tipos[i] = arreglo.getJSONObject(i).getString("department");
         }
+
         return tipos;
     }
     
@@ -290,7 +301,8 @@ public class ControladorInicial {
     
     //Metodo que le brinda los productos iniciales de la tienda
     public static List<Item> ProductosTienda(List<Item> items){
-            //Acá se le pasa los productos al inventario de la tienda y almaceno su direccion en inventarioTienda
+           
+        //Acá se le pasa los productos al inventario de la tienda y almaceno su direccion en inventarioTienda
         List<Item> itemsTienda = new ArrayList<>();
         
         for (int i=0; i<20; i++){
@@ -312,4 +324,5 @@ public class ControladorInicial {
         }
     return itemsPersonaje;
     }
+
 }    

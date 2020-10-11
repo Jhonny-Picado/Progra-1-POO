@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package tiendarpg;
-
+import GUI.Interfaz;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,17 +26,40 @@ public class ControladorLogica {
 
         itemsTienda = inicializador.ProductosTienda(items); 
         Tienda inventarioTienda=new Tienda(itemsTienda); 
-        
+        inventarioTienda.dimeInventario();
+        System.out.println("\n"+"\n");
         itemsPersonaje = inicializador.ItemsPersonaje(items);
         Personaje inventarioJugador= new Personaje(itemsPersonaje);
+        inventarioJugador.imprimirInventario();
+        System.out.println("\n"+"\n");
+  
+            
+           
+        Vender(6, inventarioTienda, inventarioJugador);
+        inventarioTienda.dimeInventario();
+        System.out.println("\n"+"\n");
+        inventarioJugador.imprimirInventario();
 
         
+    }
+    
+    public static void Comprar(int i, Tienda invTienda, Personaje invPersonaje){
         
+        Item producto;
         
-        
-        
-        
-        
+        producto=invTienda.VenderTienda(i);
+        invPersonaje.ComprarPersonaje(producto);
         
     }
+    
+   public static void Vender(int i, Tienda invTienda, Personaje invPersonaje){
+        
+        Item producto;
+        
+        producto=invPersonaje.VenderPersonaje(i);
+        invTienda.ComprarTienda(producto);
+        
+    }
+   
+   
 }

@@ -14,6 +14,7 @@ public class Arma extends Item{
     //Atributos propios de la clase arma 
     private String tipo;
     private double peso;
+    
     //Constructor que modifica los atributos de Arma
     public Arma(String nombre, String color, int precio, int nivel, int poder, String tipo, double peso){
         
@@ -27,4 +28,5 @@ public class Arma extends Item{
     public String toString  (){ //Getter
         return super.getDatos()+" tipo: "+ tipo+ ",  Peso: "+peso;
     }
+    
 }

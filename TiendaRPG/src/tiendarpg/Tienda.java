@@ -16,10 +16,9 @@ public class Tienda {
     
     private String nombre;
     private int dinero;
-    private static List<Item> inventarioTienda;
+    private List<Item> inventarioTienda;
     private int indice;
     private int contador;
-    public Item objecto;
     
     Tienda() {
     }
@@ -27,22 +26,25 @@ public class Tienda {
     
     public Tienda(List<Item> items) {
         nombre ="Sogeking Store";
-        dinero = (int)(Math.random()*1000000+500000);
+        dinero = (int)(Math.random()*20000+15000);
         inventarioTienda=items;
-        contador=20;
     }
 
 
-    
     public void ComprarTienda(Item item){
-        contador++;
+
+        if (item.getPrecio()>dinero){
+            System.out.println("No hay suficiente dinero");
+        }
+        else{
         dinero-=item.getPrecio();
-        inventarioTienda.add(item);
+        inventarioTienda.add(item); 
+        }
     }
     
     public Item VenderTienda(int i){
         
-        this.dinero += inventarioTienda.get(i).getPrecio();
+        this.dinero += this.inventarioTienda.get(i).getPrecio();
         Item itemTemporal= inventarioTienda.get(i);
         inventarioTienda.remove(i);
         
@@ -57,10 +59,10 @@ public class Tienda {
        return "El nombre de la tienda es:     " + nombre+ "    Dinero:    "+dinero;
     }
     
+    
     public double dinero(){ 
         return dinero;
     }
-    
     
 }
 
