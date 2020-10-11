@@ -60,6 +60,20 @@ public class ControladorLogica {
         invTienda.ComprarTienda(producto);
         
     }
-   
-   
-}
+
+
+
+    public static void TitulosGUI(){
+        
+        public Interfaz 
+        
+
+    }
+        
+        
+        
+} 
+
+            
+            
+                      

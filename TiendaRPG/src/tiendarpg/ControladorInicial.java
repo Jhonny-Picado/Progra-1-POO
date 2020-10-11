@@ -26,7 +26,7 @@ public class ControladorInicial {
         //Listas que contendrán los datos de la api convertidos
         String nombres[];
         String colores[];
-        String tipos[];
+       
         int precios[];
         int niveles[];
         int poderes[];
@@ -48,12 +48,11 @@ public class ControladorInicial {
         niveles = Niveles(arreglo);
         poderes = Poderes(arreglo);
         pesos = Pesos(arreglo);
-        tipos = Tipos(arreglo);
         tamaños = Tamaños(arreglo);
         materiales= Materiales(arreglo);
         
         //Se cre el arreglo de items de las tres categorias
-        items = ArregloItems(nombres, colores, precios, niveles, poderes, tipos, pesos, tamaños, materiales);
+        items = ArregloItems(nombres, colores, precios, niveles, poderes, pesos, tamaños, materiales);
 
 
         return items;
@@ -177,18 +176,6 @@ public class ControladorInicial {
         return pesos;
     }
     
-    //Metodo que retorna los tipos al Array de nuestros items
-    public static String[] Tipos(JSONArray arreglo){
-        
-        String tipos[] = new String[27];
-        
-        for (int i=0; i<tipos.length; i++){
-            tipos[i] = arreglo.getJSONObject(i).getString("department");
-        }
-
-        return tipos;
-    }
-    
     //Metodo que retorna los tamaños de las armaduras
     public static String[] Tamaños(JSONArray arreglo){
     
@@ -276,23 +263,30 @@ public class ControladorInicial {
     } 
     
     //Metodo que se encarga de realizar el arreglo de items del programa
-    public static List<Item> ArregloItems (String[] nombres, String[] colores, int[] precios, int[] niveles, int[] poderes, String[] tipos, double[] pesos, String[] tamaños, String[] materiales){
+    public static List<Item> ArregloItems (String[] nombres, String[] colores, int[] precios, int[] niveles, int[] poderes, double[] pesos, String[] tamaños, String[] materiales){
          
         List<Item> items = new ArrayList<>();
         
+        String tiposArmas[] = {"Espada","Pistola","Escopeta","Cuchillo","Bate"};
+        String tiposConsumible []= {"Energizante","Posión","Comida","Adrenalina","Agua"};
+        
+        
         for (int i=0; i<27; i++){
             
-            if ( i<7 ){
-                Item arma= new Arma(nombres[i], colores[i], precios[i], niveles[i], poderes[i], tipos[i], pesos[i]);
+            int index= (int)(Math.random()*4+0);
+            int entrada= (int)(Math.random()*3+1);
+            
+            if ( entrada==1 ){
+                Item arma= new Arma(nombres[i], colores[i], precios[i], niveles[i], poderes[i], tiposArmas[index], pesos[i]);
                 items.add(arma);
             }
-            else if( i>7 && i<14 ){
+            else if( entrada==2 ){
                 
-                Item consumible= new Consumible(nombres[i], colores[i], precios[i], niveles[i],poderes[i], tipos[i]);
+                Item consumible= new Consumible(nombres[i], colores[i], precios[i], niveles[i],poderes[i], tiposConsumible[index]);
                 items.add(consumible);    
             }
             else{
-                Item armadura= new Armadura(nombres[i], colores[i], precios[i], niveles[i], poderes[i], tipos[i], tamaños[i], materiales[i]);
+                Item armadura= new Armadura(nombres[i], colores[i], precios[i], niveles[i], poderes[i],tamaños[i], materiales[i]);
                 items.add(armadura);
             }
         }
@@ -305,7 +299,7 @@ public class ControladorInicial {
         //Acá se le pasa los productos al inventario de la tienda y almaceno su direccion en inventarioTienda
         List<Item> itemsTienda = new ArrayList<>();
         
-        for (int i=0; i<20; i++){
+        for (int i=0; i<25; i++){
             itemsTienda.add(i, items.get(i));
         }
     return itemsTienda;
