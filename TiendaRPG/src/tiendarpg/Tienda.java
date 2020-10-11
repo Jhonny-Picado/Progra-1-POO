@@ -64,6 +64,11 @@ public class Tienda {
         return dinero;
     }
     
+    public String getnombre(){
+        return nombre;
+    }
+    
+    
 }
 
 
