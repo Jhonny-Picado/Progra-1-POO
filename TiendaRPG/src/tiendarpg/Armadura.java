@@ -13,10 +13,15 @@ public class Armadura extends Item{
     
     //Atributos propios de la clase arma 
     
-    private String tamaño;
-    private String material;
+   // private String tamaño;
+    // private String material;
     //Constructor que modifica los atributos de Arma
-    public Armadura(String nombre, String color, int precio, int nivel, int poder,String tamaño, String material){
+  
+    public String Armadura(){
+        return this.tamaño;
+    }
+    
+    Armadura(String nombre, String color, int precio, int nivel, int poder,String tamaño, String material){
         
         
         
@@ -30,4 +35,10 @@ public class Armadura extends Item{
     public String toString  (){ //Getter
         return super.getDatos()+" tamaño: "+ tamaño+ ",  material: "+material;
     }
+  
+    public String getTamaño(){
+       return this.tamaño;
+    }
+
+
 }

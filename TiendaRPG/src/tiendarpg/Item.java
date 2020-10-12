@@ -20,8 +20,12 @@ public class Item {
     protected  int precio;
     protected  int nivel;
     protected  int poder;
+    protected String tipo;
+    protected double peso;
+    protected String material;
+    protected String tamaño;
     
-    public Item(String nombre,String color,int precio,int nivel, int poder){
+    Item(String nombre,String color,int precio,int nivel, int poder){
         this.nombre=nombre;
         this.color=color;
         this.precio=precio;
@@ -49,21 +53,37 @@ public class Item {
     
     
     public String getColor() {
-        return color;
+        return this.color;
     }
 
     
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     
     public int getNivel() {
-        return nivel;
+        return this.nivel;
     }
 
     
     public int getPoder() {
-        return poder;
+        return this.poder;
+    }
+    
+    public String getTipo() {
+        return this.tipo;
+    }
+    
+    public double getPeso() {
+        return this.peso;
+    }
+    
+    public String getMaterial() {
+        return this.material;
+    }
+    
+    public String getTamaño() {       
+        return tamaño;
     }
 }

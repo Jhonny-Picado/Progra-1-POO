@@ -11,8 +11,6 @@ package tiendarpg;
  */
 public class Consumible extends Item {
     
-    private String tipo; 
-    
     //Constructor que modifica los atributos de Consumible
     public Consumible(String nombre, String color, int precio, int nivel, int poder, String tipo){
         
