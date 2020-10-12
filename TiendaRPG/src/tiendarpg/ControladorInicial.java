@@ -84,7 +84,7 @@ public class ControladorInicial {
     //Metodo que pasa los nombre del JSON al array de nuestros nombres de Items
     public static String[] Nombres(JSONArray arreglo){
         
-        String nombres[] = new String[27];
+        String nombres[] = new String[40];
         
         for (int i=0; i<nombres.length; i++){
             nombres[i]= arreglo.getJSONObject(i).getString("seeAllName");
@@ -95,7 +95,7 @@ public class ControladorInicial {
     //Metodo que pasa los colores al Array de nuestros items
     public static String[] Colores(){
         
-        String coloresAuxiliar[]= new String[27];
+        String coloresAuxiliar[]= new String[40];
         String colores[] = {"Amarillo", "Morado", "Azul", "Rojo", "Verde","Cafe","Negro", "Blanco", "Celeste", "Gris", 
                             "Turquesa", "Naranja", "Violeta", "Dorado","Rosado","Fucsia","Salmon","Marron","Beige","Lila"};
         int j;
@@ -111,7 +111,7 @@ public class ControladorInicial {
     public static int[] Precios(JSONArray arreglo){
         
         int temporal;
-        int precios[] = new int[27];
+        int precios[] = new int[40];
         
         
         for (int i=0; i<precios.length; i++){
@@ -129,7 +129,7 @@ public class ControladorInicial {
     
     //Metodo que pasa los niveles del JSON al array de nuestros nombres de Items
     public static int[] Niveles(JSONArray arreglo){
-        int niveles[] = new int[27];
+        int niveles[] = new int[40];
         int temporal;
         
         for (int i=0; i<niveles.length; i++){
@@ -147,7 +147,7 @@ public class ControladorInicial {
     
     //Metodo que pasa los poderes del JSON al array de nuestros nombres de Items
     public static int[] Poderes(JSONArray arreglo){
-        int poderes[] = new int[27];
+        int poderes[] = new int[40];
         int temporal;
         
         for (int i=0; i<poderes.length; i++){
@@ -168,7 +168,7 @@ public class ControladorInicial {
     
     //Metodo que retorna los pesos de las armaduras
     public static double[] Pesos(JSONArray arreglo){
-        double pesos[] = new double[27];
+        double pesos[] = new double[40];
 
         for (int i=0; i<pesos.length; i++){
             pesos[i] = arreglo.getJSONObject(i).getDouble("customerRating");
@@ -179,7 +179,7 @@ public class ControladorInicial {
     //Metodo que retorna los tamaños de las armaduras
     public static String[] Tamaños(JSONArray arreglo){
     
-        String tamaños[]= new String[27];
+        String tamaños[]= new String[40];
         int temporal;
         
         for (int i=0; i<tamaños.length; i++){
@@ -226,13 +226,13 @@ public class ControladorInicial {
     //Metodo que retorna los tamaños de las armaduras
     public static String[] Materiales(JSONArray arreglo){
     
-        String materiales[]= new String[27];
+        String materiales[]= new String[40];
         
         int temporal; 
     
             for (int i=0; i<materiales.length; i++){
             
-                String [] materialesaux = {"cuero", "madera", "acero", "hueso", "algodón", "fibras"};
+                String [] materialesaux = {"Cuero", "Madera", "Acero", "Hueso", "Algodón", "Fibras"};
                 temporal = (arreglo.getJSONObject(i).getString("title")).length();
             
                 if ( temporal<20 ){
@@ -271,7 +271,7 @@ public class ControladorInicial {
         String tiposConsumible []= {"Energizante","Posión","Comida","Adrenalina","Agua"};
         
         
-        for (int i=0; i<27; i++){
+        for (int i=0; i<40; i++){
             
             int index= (int)(Math.random()*4+0);
             int entrada= (int)(Math.random()*3+1);
@@ -299,7 +299,7 @@ public class ControladorInicial {
         //Acá se le pasa los productos al inventario de la tienda y almaceno su direccion en inventarioTienda
         List<Item> itemsTienda = new ArrayList<>();
         
-        for (int i=0; i<25; i++){
+        for (int i=0; i<31; i++){
             itemsTienda.add(i, items.get(i));
         }
     return itemsTienda;
@@ -312,7 +312,7 @@ public class ControladorInicial {
         List<Item> itemsPersonaje = new ArrayList<>();
         
         int j=0;
-        for(int i=20; i<27; i++){
+        for(int i=31; i<39; i++){
             itemsPersonaje.add(j, items.get(i));
             j++;
         }

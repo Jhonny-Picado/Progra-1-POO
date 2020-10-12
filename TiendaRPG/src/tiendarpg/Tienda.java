@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package tiendarpg;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,12 +58,21 @@ public class Tienda {
     }
     
     
-    public double dinero(){ 
+    public int getdinero(){ 
         return dinero;
     }
     
     public String getnombre(){
         return nombre;
+    }
+
+    public Object get(int i) {
+        return inventarioTienda.get(i);
+    }
+    
+    
+    public int Size(){
+        return inventarioTienda.size();
     }
     
     

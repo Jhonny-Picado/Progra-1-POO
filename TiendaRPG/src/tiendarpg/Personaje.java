@@ -9,7 +9,7 @@ import java.util.*;
 
 
  /*
- *
+ * @uthor Jhonny Picado
  * @author Christopher
  */
 public class Personaje {
@@ -22,7 +22,7 @@ public class Personaje {
     private int agilidad ;
     private int ataque ;   
     private List<Item> inventarioPersonaje;
-    int contador;
+    private int defensa;
     
     //Constructor por defeto
     Personaje() {
@@ -34,16 +34,15 @@ public class Personaje {
     Personaje(List<Item> items){
     
         //Inicializo los atributos con valores randoms
-        this.vida = (int)(Math.random()*100+1);
-        this.dinero =(int)(Math.random()*20000+15000);
-        this.agilidad =(int)(Math.random()*100+1);
-        this.ataque = (int)(Math.random()*100+1);   
+        this.vida = (int)(Math.random()*50+25);
+        this.dinero =(int)(Math.random()*18000+10000);
+        this.agilidad =(int)(Math.random()*78+12);
+        this.ataque = (int)(Math.random()*70+30);
+        this.defensa = (int)(Math.random()*80+15);
         this.nombre = "Sogeking";
-        this.contador=7;
         
         inventarioPersonaje=items;
     }
-
     
     //Metodo comprar de la tienda
     public void ComprarPersonaje(Item item){
@@ -68,37 +67,7 @@ public class Personaje {
         
         return itemTemporal;
     }
-    
-
-    public void imprimirInventario(){
-        System.out.println("Personaje:     " + nombre+ "        Dinero:    "+dinero);
-        for (Item i : inventarioPersonaje){
-            System.out.println(i);
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //Metodo que selecciona el nombre del jugador
-    public void SelNombre(String nombre){
-        this.nombre=nombre;
-    }
-
-
+  
     public void setVida(int vida) {
         this.vida += vida;
         
@@ -108,77 +77,46 @@ public class Personaje {
         if (this.vida<0)
             this.vida=0;
     }
-
+    
+    
+    
     public String getArmadura() {
         return armadura;
     }
-
-    public void setDinero(double dinero) {
-        this.dinero += dinero;
-        if (this.dinero<0)
-            this.dinero=0;
-    }
-
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;  
-    }
-
-
-    public void setAgilidad(int agilidad) {
-        this.agilidad += agilidad;
-        if (this.agilidad<0)
-            this.agilidad=0;
-    }
-
-
-    public void setAtaque(int ataque) {
-        this.ataque += ataque;
-        if (this.ataque<0)
-            this.ataque=0;
-    }
-
     
     
 
-
-    /*
-    public void guardar() {
-        // TODO implement here
-        return null;
+    public int getDefensa() {
+        return defensa;
     }
-
-    
-    public void reiniciarEstados() {
-        // TODO implement here
-        return null;
-    }
-     public double comprar() {
-        // TODO implement here
-        return 0.0d;
-    }
-
-    
-    public double vender() {
-        // TODO implement here
-        return 0.0d;
-    } a controlador// recibe id de personaje
-
-    */
    
-    //Metodo que muestra las stats del jugador
-    public String mostrarStats() {
-        
-        String mensaje="";
-        mensaje+="dinero: "+ dinero;
-        mensaje+="\nNombre: "+  nombre;
-        mensaje+="\n Vida : "+vida;
-        mensaje+="\n Armadura : "+armadura;
-        mensaje+="\n Agilidad : "+agilidad;
+    public String getnombre() {
+        return nombre;
+    }
+    
+    public int getVida() {
+        return vida;
+    }
 
-        return mensaje;
+    public int getDinero() {
+        return dinero;
+    }
+
+
+    public int getAgilidad() {
+        return agilidad;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
     
+    public Object get(int i) {
+        return inventarioPersonaje.get(i);
+    }
     
+    public int Size() {
+        return inventarioPersonaje.size();
     }
 
 }
