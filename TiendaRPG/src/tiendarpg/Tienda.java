@@ -7,75 +7,70 @@ package tiendarpg;
 import java.util.List;
 
 /**
- *
+ * Clase de la tiendaRPG
  * @author Jhonny Picado Vega
  */
 public class Tienda {
     
+    //Atributos propios de la tienda
     private String nombre;
     private int dinero;
     private List<Item> inventarioTienda;
-    private int indice;
-    private int contador;
-    
+
+    //Constuctor por defecto
     Tienda() {
     }
     
-    
-    public Tienda(List<Item> items) {
-        nombre ="Sogeking Store";
-        dinero = (int)(Math.random()*20000+15000);
+    //Constructor inicializador
+    Tienda(List<Item> items) {
+        
+        nombre = "Sogeking Store";
+        dinero = (int)(Math.random()*17000+15000);
         inventarioTienda=items;
     }
 
-
-    public void ComprarTienda(Item item){
-
-        if (item.getPrecio()>dinero){
-            System.out.println("No hay suficiente dinero");
-        }
-        else{
-        dinero-=item.getPrecio();
+    //Metodo utilizado pra la compra de items por parte de la tienda, rebaja el
+    //dinero y añade el item al inventario
+    public void ComprarTienda(Item item, int precio){
+        dinero-=precio;
         inventarioTienda.add(item); 
-        }
     }
     
+    //Metodo utilizado pra la compra de items por parte de la tienda, retorna el item vendido
     public Item VenderTienda(int i){
-        
-        this.dinero += this.inventarioTienda.get(i).getPrecio();
         Item itemTemporal= inventarioTienda.get(i);
-        inventarioTienda.remove(i);
-        
         return itemTemporal;
     }
 
-    public String dimeInventario(){
-        System.out.println("El nombre de la tienda es:" + nombre+ "Dinero: "+dinero);
-        for (Item i : inventarioTienda){
-            System.out.println(i.toString());
-        }
-       return "El nombre de la tienda es:     " + nombre+ "    Dinero:    "+dinero;
-    }
-    
-    
+    //Metodo que muestra el dinero de la tienda
     public int getdinero(){ 
         return dinero;
     }
     
+    //Metodo que muestra el nombre de la tienda
     public String getnombre(){
         return nombre;
     }
 
+    //Metodo que devuelve un objeto item
     public Object get(int i) {
         return inventarioTienda.get(i);
     }
     
-    
+    //Metodo que retorna la cantidad de items que tiene la tienda
     public int Size(){
         return inventarioTienda.size();
     }
     
+    //Metodo que borra un item del inventario (se usa en vender)
+    public void remove(int i){
+        inventarioTienda.remove(i);
+    }
     
+    //Metodo utilizado para modificar el dinero de la tienda
+    public void setDinero(int precio){    
+        dinero+=precio;
+    }
 }
 
 
