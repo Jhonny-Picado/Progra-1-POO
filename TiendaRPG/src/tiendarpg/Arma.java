@@ -18,16 +18,7 @@ public class Arma extends Item{
     Arma(String nombre, String color, int precio, int nivel, int poder, String tipo, double peso){
         
         super(nombre,color,precio,nivel,poder);
-        this.tipo= tipo;
-        this.peso=peso;
-    }
-
-
-
-    //toString, muestra el contenido de los atributos de Arma
-    @Override
-    public String toString  (){ //Getter
-        return super.getDatos()+" tipo: "+ tipo+ ",  Peso: "+peso;
-    }
-    
+        this.tipo= tipo;    //Tipo atributo propio de Arma
+        this.peso=peso;    //Peso atributo propio de Peso
+    }  
 }

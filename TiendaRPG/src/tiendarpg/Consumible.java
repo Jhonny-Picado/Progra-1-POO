@@ -15,12 +15,8 @@ public class Consumible extends Item {
     public Consumible(String nombre, String color, int precio, int nivel, int poder, String tipo){
         
         super(nombre,color,precio,nivel,poder);
+        
+        //Atributo propio de consumible
         this.tipo= tipo;
-    }
-
-    //toString, muestra el contenido de los atributos de Consumible
-    @Override
-    public String toString  (){ //Getter
-        return super.getDatos()+" tipo: "+ tipo;
     }
 }

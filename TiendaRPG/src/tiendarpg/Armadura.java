@@ -6,39 +6,23 @@
 package tiendarpg;
 
 /**
- *
- * @author cva
+ *Clase de la categoría Armadura
+ * @author Christopher
  */
 public class Armadura extends Item{
     
-    //Atributos propios de la clase arma 
-    
-   // private String tamaño;
-    // private String material;
-    //Constructor que modifica los atributos de Arma
-  
-    public String Armadura(){
-        return this.tamaño;
-    }
-    
+    //Constructor que modifica los atributos de Armadura
     Armadura(String nombre, String color, int precio, int nivel, int poder,String tamaño, String material){
-        
-        
-        
+       
         super(nombre,color,precio,nivel,poder);
+        
+        //Atributos propios de la clase Armadura 
         this.tamaño= tamaño;
         this.material=material;
     }
     
-    //toString, muestra el contenido de los atributos de Arma
-    @Override
-    public String toString  (){ //Getter
-        return super.getDatos()+" tamaño: "+ tamaño+ ",  material: "+material;
-    }
-  
+    //Metodo get para mostar el tamaño de la armadura
     public String getTamaño(){
        return this.tamaño;
     }
-
-
 }
