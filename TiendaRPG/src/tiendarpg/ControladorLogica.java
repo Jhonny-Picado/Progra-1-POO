@@ -44,6 +44,7 @@ public class ControladorLogica  implements ActionListener{
     MostrarTablaTienda();
     MostrarTablaPersonaje();
     ModificarStats();
+    CantItemsTienda();
     }
     
 
@@ -118,6 +119,7 @@ public class ControladorLogica  implements ActionListener{
             AñadirRowPersonaje(producto);                          //añade este objeto al inventario del jugador en la GUI
             DineroTienda();                                        //Muestra el dinero
             ModificarStats();                                      //Muestra las stats
+            CantItemsTienda();                                     //Muestra la cantidad de items de la tienda
         }
         //Envía un mensaje de error si no le alcanza el dinero
         else{
@@ -148,7 +150,8 @@ public class ControladorLogica  implements ActionListener{
             inventarioTienda.ComprarTienda(producto,precio);
             AñadirRowTienda(producto);
             DineroTienda(); 
-            ModificarStats(); 
+            ModificarStats();
+            CantItemsTienda();
         }
         //Envía un mensaje de error si no le alcanza el dinero
         else{
@@ -160,10 +163,15 @@ public class ControladorLogica  implements ActionListener{
         }
     }
    
-    //Metodo que intoduce el nombre de la tienda en la GUI
+    //Metodo que intodruce el nombre de la tienda en la GUI
     public static void NombreTienda(){
         vista.tituloTienda.setText(inventarioTienda.getnombre());
     } 
+    
+    //Método que muestra la cantidad de items que tiene la tienda
+    public static void CantItemsTienda(){
+    vista.cantPrTienda.setText(Integer.toString(inventarioTienda.Size()));
+    }
     
     //Metodo que intoduce el nombre del personaje en la GUI
     public static void NombrePersonaje(){
