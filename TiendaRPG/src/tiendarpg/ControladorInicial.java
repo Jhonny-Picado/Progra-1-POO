@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package tiendarpg;
+
+//Se importan las librerías necesarias
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.ResponseBody;
@@ -14,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * Clase que pide el request del API, controla el json y hace las conversiones del mismo
  * @author Christopher Vindas
  * @author Jhonny Picado Vega
  */
@@ -21,12 +24,12 @@ import org.json.JSONObject;
 //Clase que inicializa los items, llama al API, transforma los datos del Json y demás.
 public class ControladorInicial {
     
-    public static List<Item> Controlador() throws IOException{
+    //Metodo que controla el flujo de esta parte del programa
+    public static List<Item> ControladorInicial() throws IOException{
         
         //Listas que contendrán los datos de la api convertidos
         String nombres[];
         String colores[];
-       
         int precios[];
         int niveles[];
         int poderes[];
@@ -37,7 +40,6 @@ public class ControladorInicial {
         //Lista de items que llenaran los inventarios de la tienda y personaje
         List<Item> items;
 
-       
         //Se deja el JSONArray en la variable arreglo
         JSONArray arreglo = ApiJson();        
         
@@ -51,11 +53,11 @@ public class ControladorInicial {
         tamaños = Tamaños(arreglo);
         materiales= Materiales(arreglo);
         
-        //Se cre el arreglo de items de las tres categorias
+        //Se crea el arreglo de items de las tres categorias
         items = ArregloItems(nombres, colores, precios, niveles, poderes, pesos, tamaños, materiales);
 
-
-        return items;
+        //Se retorna este arreglo, para dividirlo en el controlador lógico
+        return items;  
       
     }
     
@@ -72,20 +74,24 @@ public class ControladorInicial {
 	.addHeader("x-rapidapi-key", "2ca9a8d581msha6e26d4e637cf04p15e528jsna84bd3d46010")
 	.build();
 
+        //Se hace un request body del API
         ResponseBody responseBody = client.newCall(request).execute().body();        
        
+        //Se declara e inicializa un JSONObject con el response del api
         JSONObject json = new JSONObject(responseBody.string());
         
+        //Se pasa la etiqueta "items" de Objeto Json a un arrayJson 
         JSONArray arregloJson = json.getJSONArray("items");
-        
-        return arregloJson;   
+      
+        return arregloJson;   //Retorna el arreglo
     }
     
-    //Metodo que pasa los nombre del JSON al array de nuestros nombres de Items
+    //Metodo que pasa los nombre del JSON hacia el array de nuestros nombres de Items
     public static String[] Nombres(JSONArray arreglo){
         
         String nombres[] = new String[40];
         
+        //Pide los strings de la etiqueta "seeAllName" para atribuir los nombres
         for (int i=0; i<nombres.length; i++){
             nombres[i]= arreglo.getJSONObject(i).getString("seeAllName");
         }
@@ -113,7 +119,8 @@ public class ControladorInicial {
         int temporal;
         int precios[] = new int[40];
         
-        
+        //La formula consiste en ir sumando uno por uno los digitos que
+        //ofrecen la etiqueta "numReviews"
         for (int i=0; i<precios.length; i++){
         
             temporal= arreglo.getJSONObject(i).getInt("numReviews");
@@ -132,6 +139,8 @@ public class ControladorInicial {
         int niveles[] = new int[40];
         int temporal;
         
+        //La formula consiste en ir eliminiando digitos de los que nos ofrece
+        //la etiqueta "quantity"
         for (int i=0; i<niveles.length; i++){
             
             temporal = arreglo.getJSONObject(i).getInt("quantity");
@@ -141,7 +150,6 @@ public class ControladorInicial {
             }    
             niveles[i]=temporal;        
         }
-        
         return niveles;
     } 
     
@@ -150,6 +158,8 @@ public class ControladorInicial {
         int poderes[] = new int[40];
         int temporal;
         
+        //La formula consiste en ir sumando los digitos que nos ofrece de response 
+        //la etiqueta "usItemId"
         for (int i=0; i<poderes.length; i++){
             
             temporal=0;
@@ -166,7 +176,7 @@ public class ControladorInicial {
         return poderes;
     }
     
-    //Metodo que retorna los pesos de las armaduras
+    //Metodo que retorna los pesos de las armaduras, se deja igual
     public static double[] Pesos(JSONArray arreglo){
         double pesos[] = new double[40];
 
@@ -177,6 +187,8 @@ public class ControladorInicial {
     }
     
     //Metodo que retorna los tamaños de las armaduras
+    //Usa el JSON con la etiqueta "title", en el while recorre ese string y la
+    //primera vocal en minúscula que encuentre le dara el valor al tamaño
     public static String[] Tamaños(JSONArray arreglo){
     
         String tamaños[]= new String[40];
@@ -213,17 +225,16 @@ public class ControladorInicial {
                     temporal=4;
                     break;
                 }
-
                 j++;    
             }
-            
             tamaños[i]=tamaño[temporal];
         }
         return tamaños;  
     }
     
     
-    //Metodo que retorna los tamaños de las armaduras
+    //Metodo que retorna los tamaños de las armaduras, su funcionamiento es
+    //identico al de el metodo anterior, solo que por rangos
     public static String[] Materiales(JSONArray arreglo){
     
         String materiales[]= new String[40];
@@ -238,23 +249,18 @@ public class ControladorInicial {
                 if ( temporal<20 ){
                     materiales[i]=materialesaux[0];
                 }
-                
                 else if (temporal>19 && temporal <40){
                     materiales[i]=materialesaux[1];
                 }
-                
                 else if (temporal>39 && temporal <60){
                     materiales[i]=materialesaux[2];
                 }
-                
                 else if (temporal>59 && temporal<80){
                     materiales[i]=materialesaux[3];
                 }
-                
                 else if (temporal>79 && temporal<100){
                     materiales[i]=materialesaux[4];
                 }
-            
                 else {
                 materiales[i]=materialesaux[5];
                 }
@@ -263,17 +269,18 @@ public class ControladorInicial {
     } 
     
     //Metodo que se encarga de realizar el arreglo de items del programa
+    //Guarda todos los items en esta lista para poder dividirlos posteriormente
     public static List<Item> ArregloItems (String[] nombres, String[] colores, int[] precios, int[] niveles, int[] poderes, double[] pesos, String[] tamaños, String[] materiales){
          
         List<Item> items = new ArrayList<>();
         
         String tiposArmas[] = {"Espada","Pistola","Escopeta","Cuchillo","Bate"};
         String tiposConsumible []= {"Energizante","Posión","Comida","Adrenalina","Agua"};
-        
-        
+
         for (int i=0; i<40; i++){
             
-            int index= (int)(Math.random()*4+0);
+            int index= (int)(Math.random()*4+0); //Hace un random para ver que tipo de arma y consumible será
+            //Hace un random para que los items sean diferenres consecutivos (es decir tratar que el 1 no sea mismo tipo que el 2)
             int entrada= (int)(Math.random()*3+1);
             
             if ( entrada==1 ){
@@ -318,5 +325,4 @@ public class ControladorInicial {
         }
     return itemsPersonaje;
     }
-
 }    
