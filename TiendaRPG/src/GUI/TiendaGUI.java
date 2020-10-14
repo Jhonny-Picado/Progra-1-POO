@@ -20,7 +20,7 @@ public class TiendaGUI extends javax.swing.JFrame {
     public DefaultTableModel tablaTienda;
     public DefaultTableModel tablaPersonaje; 
     public Object productoTienda[] = new Object[9];
-    public Object productoPersonaje[] = new Object[9]; 
+    public Object productoPersonaje[] = new Object[10]; 
     ControladorLogica botones= new ControladorLogica();
     /**
      * Creates new form TiendaGUI
@@ -567,7 +567,7 @@ public class TiendaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_equiparActionPerformed
     //Método del botón comprar
     private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
-       
+
         botones.actionPerformed(evt);
     }//GEN-LAST:event_ComprarActionPerformed
 
