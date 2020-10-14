@@ -144,6 +144,22 @@ public class Personaje {
         }    
     }
     
+    //Metodo utilizado para modificar el ataque del personaje
+    public void setAtaque(int nAtaque, boolean condicion) {
+        
+        if (condicion==true){
+            if (defensa<=100){
+            ataque+=nAtaque;
+            if (ataque>100) ataque=100;
+            }
+        }
+        else{
+            ataque-=nAtaque;
+            if (ataque<0) ataque=0;    
+        }    
+    }
+    
+    
     //Metodo que devuelve cuantos items tiene el personaje
     public void setEquipados(boolean condicion) {
         

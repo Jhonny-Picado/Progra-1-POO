@@ -281,12 +281,23 @@ public class ControladorLogica  implements ActionListener{
     public static void ModificarStats(int index, boolean condicion){
         
         Object vtamaño = vista.tablaPersonaje.getValueAt(index, 7);     //Verifica si el item tiene tamaño
-
+        
+        //Captura el peso, si tiene peso es un arma
+        Item peso;
+        double vpeso;
+        peso=(Item)inventarioJugador.get(index);
+        vpeso= peso.getPeso();
+        
+        
+        
         Item producto=(Item) inventarioJugador.get(index);
         int modificador=producto.getPoder();
         
         if (vtamaño!=null){
             inventarioJugador.setDefensa(modificador, condicion);                  //Si tiene tamaño modifica la defensa
+        }
+        else if(vpeso!=0){
+            inventarioJugador.setAtaque(modificador, condicion);
         }
         else{
             inventarioJugador.setVida(modificador, condicion);                     //Sino modifica la vida
