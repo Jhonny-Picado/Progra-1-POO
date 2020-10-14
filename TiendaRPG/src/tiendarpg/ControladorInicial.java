@@ -10,6 +10,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -68,7 +70,7 @@ public class ControladorInicial {
         OkHttpClient client = new OkHttpClient();
    
         Request request = new Request.Builder()
-	.url("https://walmart.p.rapidapi.com/products/list?sort=best_seller&zipcode=94066&page=1&cat_id=0&pref_store=2648%252C5434%252C2031%252C2280%252C5426")
+	.url("https://rapidapi.p.rapidapi.com/products/list?cat_id=0&pref_store=2648%2C5434%2C2031%2C2280%2C5426&sort=best_seller&zipcode=94066&page=1")
 	.get()
 	.addHeader("x-rapidapi-host", "walmart.p.rapidapi.com")
 	.addHeader("x-rapidapi-key", "2ca9a8d581msha6e26d4e637cf04p15e528jsna84bd3d46010")
@@ -114,6 +116,7 @@ public class ControladorInicial {
     }
      
     //Metodo que pasa los precios del JSON al array de nuestros nombres de Items
+    //Se modifico su label, ya que se actualizo la API a último momento
     public static int[] Precios(JSONArray arreglo){
         
         int temporal;
@@ -123,36 +126,18 @@ public class ControladorInicial {
         //ofrecen la etiqueta "numReviews"
         for (int i=0; i<precios.length; i++){
         
-            temporal= arreglo.getJSONObject(i).getInt("numReviews");
+            temporal= arreglo.getJSONObject(i).getInt("quantity");
             
-            while(temporal>500){
+            while(temporal>600){
                 temporal/=10;
             }
+            if (temporal==0) temporal= 1268;
             precios[i]=temporal*(i+1);
         }
         return precios;
     }
     
-    
-    //Metodo que pasa los niveles del JSON al array de nuestros nombres de Items
-    public static int[] Niveles(JSONArray arreglo){
-        int niveles[] = new int[40];
-        int temporal;
-        
-        //La formula consiste en ir eliminiando digitos de los que nos ofrece
-        //la etiqueta "quantity"
-        for (int i=0; i<niveles.length; i++){
-            
-            temporal = arreglo.getJSONObject(i).getInt("quantity");
-            
-            while (temporal>9){
-                temporal/=10;
-            }    
-            niveles[i]=temporal;        
-        }
-        return niveles;
-    } 
-    
+
     //Metodo que pasa los poderes del JSON al array de nuestros nombres de Items
     public static int[] Poderes(JSONArray arreglo){
         int poderes[] = new int[40];
@@ -170,21 +155,49 @@ public class ControladorInicial {
                 temporal += (tempaux % 10);
                 tempaux /= 10;
             }    
-            poderes[i]=temporal;
+            poderes[i]=temporal/2;
         }
         
         return poderes;
     }
     
-    //Metodo que retorna los pesos de las armaduras, se deja igual
+    //Metodo que retorna los pesos de las armaduras, se reescala para que tenga un decimal (Actualizaron el API a ultima hora, y se tuvo que modificar)
     public static double[] Pesos(JSONArray arreglo){
         double pesos[] = new double[40];
-
+        double temp;
+        
         for (int i=0; i<pesos.length; i++){
-            pesos[i] = arreglo.getJSONObject(i).getDouble("customerRating");
+            temp=arreglo.getJSONObject(i).getDouble("quantity");
+            
+            while(temp>10){
+                temp/=10;
+            }
+            BigDecimal bd = new BigDecimal(temp);   //Lo reescala a double con un decimal
+            bd = bd.setScale(1, RoundingMode.HALF_UP);
+            temp = bd.doubleValue();
+            pesos[i]=temp;
         }    
         return pesos;
     }
+    
+        //Metodo que pasa los niveles del JSON al array de nuestros nombres de Items
+    public static int[] Niveles(JSONArray arreglo){
+        int niveles[] = new int[40];
+        int temporal;
+        
+        //La formula consiste en ir eliminiando digitos de los que nos ofrece
+        //la etiqueta "quantity"
+        for (int i=0; i<niveles.length; i++){
+            
+            temporal = arreglo.getJSONObject(i).getInt("quantity");
+            
+            while (temporal>9){
+                temporal/=10;
+            }    
+            niveles[i]=temporal;        
+        }
+        return niveles;
+    } 
     
     //Metodo que retorna los tamaños de las armaduras
     //Usa el JSON con la etiqueta "title", en el while recorre ese string y la
