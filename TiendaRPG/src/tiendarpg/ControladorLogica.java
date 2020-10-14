@@ -125,7 +125,7 @@ public class ControladorLogica  implements ActionListener{
             if(equipar == JOptionPane.YES_OPTION) {
                 int ultRow=vista.tablaPersonaje.getRowCount()-1;        //Revisa el row donde quedo este item
                 vista.tablaPersonaje.setValueAt(true,ultRow , 9);       //Le indica que ya esta equipado
-                ModificarStats(ultRow);
+                ModificarStats(ultRow, true);
             }
         }
         //Envía un mensaje de error si no le alcanza el dinero
@@ -144,7 +144,9 @@ public class ControladorLogica  implements ActionListener{
         //Dialogo que le indica al usuario el precio de venta y si queire proceder
         int decision = JOptionPane.showConfirmDialog (null, "El precio de venta del articulo es: "+Integer.toString(precio),"¿Desea Proceder?",JOptionPane.YES_NO_OPTION);
         if(decision == JOptionPane.YES_OPTION) {
-    
+            
+            VerificarEquipacion(index);                                      //llama a un metodo que le quita el poder del item vendido, si lo tiene equipado
+            
             //Verifica si la tienda tiene dinero suficiente dinero para la compra
             //LLeva el mismo flujo que el metodo anterior
             if (inventarioTienda.getdinero()>precio){
@@ -248,12 +250,23 @@ public class ControladorLogica  implements ActionListener{
         vista.dineroJugador.setText(Integer.toString(inventarioJugador.getDinero()));
     }
     
+    
+    //Método utilizado para restar el poder del item vendido en caso de que lo tenga equipado 
+    public static void VerificarEquipacion(int index){
+        
+        Object valueAt = vista.tablaPersonaje.getValueAt(index, 9);
+        if (valueAt!=null){ 
+             ModificarStats(index, false);
+        }
+    }
+    
+    
     //Método encargado de verificar si el objeto seleccionado por el usuario es válido 
     public static void Equipar(){
         int index=vista.productosJugador.getSelectedRow();          //Captura la fila donde se dio un click
         Object valueAt = vista.tablaPersonaje.getValueAt(index, 9); //Pasa el valor de la columna equipado a la variable
         if (valueAt==null){                                         //Verifico si ya esta equipado
-            ModificarStats(index);
+            ModificarStats(index, true);
         }
         else{
             JOptionPane.showMessageDialog(vista, "Ese item ya se encuentra equipado");
@@ -261,7 +274,7 @@ public class ControladorLogica  implements ActionListener{
     }    
         
     //Método utilizado para modificar las stats del personaje
-    public static void ModificarStats(int index){
+    public static void ModificarStats(int index, boolean condicion){
         
         Object vtamaño = vista.tablaPersonaje.getValueAt(index, 7);     //Verifica si el item tiene tamaño
 
@@ -269,12 +282,12 @@ public class ControladorLogica  implements ActionListener{
         int modificador=producto.getPoder();
         
         if (vtamaño!=null){
-            inventarioJugador.setDefensa(modificador);                  //Si tiene tamaño modifica la defensa
+            inventarioJugador.setDefensa(modificador, condicion);                  //Si tiene tamaño modifica la defensa
         }
         else{
-            inventarioJugador.setVida(modificador);                     //Sino modifica la vida
-        }  
-        vista.tablaPersonaje.setValueAt(true, index, 9);                //Le asigna que ya esta asignado
+            inventarioJugador.setVida(modificador, condicion);                     //Sino modifica la vida
+        }
+        vista.tablaPersonaje.setValueAt(condicion, index, 9);                //Le asigna que ya esta asignado
         MostrarStats(); 
     }
 }

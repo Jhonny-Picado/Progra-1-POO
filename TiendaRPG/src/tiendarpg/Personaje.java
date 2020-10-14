@@ -57,14 +57,20 @@ public class Personaje {
     }
   
     //Metodo usado para modificar la vida del personaje
-    public void setVida(int nuevavida) {
+    public void setVida(int nuevavida, boolean condicion) {
         
-        if (vida<=100){
+        if (condicion==true){
+            
+            if (vida<=100){
             vida+=nuevavida;
             if (vida>100) vida=100;
+            }
+        }
+        else{
+            vida-=nuevavida;
+            if (vida<0) defensa=0;
         }
     }
-    
    
     //Metodo usado para mostrar la defensa del personaje
     public int getDefensa() {
@@ -116,11 +122,19 @@ public class Personaje {
         dinero+=precio;
     }
     
-    public void setDefensa(int sumadefensa) {
-        if (defensa<=100){
+    //Metodo utilizado para modificar la defensa del personaje
+    public void setDefensa(int sumadefensa, boolean condicion) {
+        
+        if (condicion==true){
+            if (defensa<=100){
             defensa+=sumadefensa;
             if (defensa>100) defensa=100;
+            }
         }
+        else{
+            defensa-=sumadefensa;
+            if (defensa<0) defensa=0;    
+        }    
     }
     
 }
