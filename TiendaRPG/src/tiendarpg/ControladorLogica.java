@@ -43,7 +43,7 @@ public class ControladorLogica  implements ActionListener{
     DineroTienda();
     MostrarTablaTienda();
     MostrarTablaPersonaje();
-    ModificarStats();
+    MostrarStats();
     CantItemsTienda();
     }
     
@@ -94,32 +94,39 @@ public class ControladorLogica  implements ActionListener{
             Vender();
             break;
         case "Equipar":
-            //Aquí tiene que llamar al método equipar
+            Equipar();
             break;
         default:
              break;
         }
     }
     
-    
     //Metodo de compra, utilizado en la GUI
     public static void Comprar(){
         
         int index=vista.productosTienda.getSelectedRow();               //Pide el indice de la lista donde el usuario ingreso un clic
         int precio=inventarioTienda.VenderTienda(index).getPrecio();    //Obtiene el precio de del objeto que se ubica en ese indice
+        int equipar = JOptionPane.showConfirmDialog (null,"¿Desea equipar el artículo?", "Equipar" ,JOptionPane.YES_NO_OPTION);
         
         //Verifica si la tiene dinero suficiente para la compra
         if (inventarioJugador.getDinero()>precio){                      
+            
             Item producto;                                          //Inicializa un object tipo item
             producto=inventarioTienda.VenderTienda(index);         //recibe el objeto del metodo vender de la tienda
             inventarioTienda.setDinero(precio);                    //Llama el metodo set que modifica el dinero de la tienda
             inventarioTienda.remove(index);                        //Borra el object en la posicion index del inventario
             vista.tablaTienda.removeRow(index);                    //Elimina el row de la tabla también
             inventarioJugador.ComprarPersonaje(producto);          //Llama al metodo comprar del personaje
-            AñadirRowPersonaje(producto);                          //añade este objeto al inventario del jugador en la GUI
+            
             DineroTienda();                                        //Muestra el dinero
-            ModificarStats();                                      //Muestra las stats
             CantItemsTienda();                                     //Muestra la cantidad de items de la tienda
+            AñadirRowPersonaje(producto);                           //Lo agrega a la tabla de la GUI
+            //Verifica si el usuario deseo equipar el item que compro
+            if(equipar == JOptionPane.YES_OPTION) {
+                int ultRow=vista.tablaPersonaje.getRowCount()-1;        //Revisa el row donde quedo este item
+                vista.tablaPersonaje.setValueAt(true,ultRow , 9);       //Le indica que ya esta equipado
+                ModificarStats(ultRow);
+            }
         }
         //Envía un mensaje de error si no le alcanza el dinero
         else{
@@ -138,25 +145,25 @@ public class ControladorLogica  implements ActionListener{
         int decision = JOptionPane.showConfirmDialog (null, "El precio de venta del articulo es: "+Integer.toString(precio),"¿Desea Proceder?",JOptionPane.YES_NO_OPTION);
         if(decision == JOptionPane.YES_OPTION) {
     
-        //Verifica si la tiene dinero suficiente para la compra
-        //LLeva el mismo flujo que el metodo anterior
-        if (inventarioTienda.getdinero()>precio){
-            Item producto;
-            producto=inventarioJugador.VenderPersonaje(index);
-            JOptionPane.showMessageDialog(vista, "El precio de venta del articulo fue: "+ precio);
-            inventarioJugador.setDinero(precio);
-            inventarioJugador.remove(index);
-            vista.tablaPersonaje.removeRow(index);
-            inventarioTienda.ComprarTienda(producto,precio);
-            AñadirRowTienda(producto);
-            DineroTienda(); 
-            ModificarStats();
-            CantItemsTienda();
-        }
-        //Envía un mensaje de error si no le alcanza el dinero
-        else{
+            //Verifica si la tienda tiene dinero suficiente dinero para la compra
+            //LLeva el mismo flujo que el metodo anterior
+            if (inventarioTienda.getdinero()>precio){
+                Item producto;
+                producto=inventarioJugador.VenderPersonaje(index);
+                JOptionPane.showMessageDialog(vista, "El precio de venta del articulo fue: "+ precio);
+                inventarioJugador.setDinero(precio);
+                inventarioJugador.remove(index);
+                vista.tablaPersonaje.removeRow(index);
+                inventarioTienda.ComprarTienda(producto,precio);
+                AñadirRowTienda(producto);
+                DineroTienda(); 
+                MostrarStats();
+                CantItemsTienda();
+            }
+            //Envía un mensaje de error si no le alcanza el dinero
+            else{
             JOptionPane.showMessageDialog(vista, "La tienda no tiene dinero suficiente para hacer la compra");
-        }
+            }
         }
         else{
             JOptionPane.showMessageDialog(vista, "La venta del producto no se realizo");
@@ -231,7 +238,7 @@ public class ControladorLogica  implements ActionListener{
     }
     
     //Metodo utilizado para mostar las stats del jugador, son a base de labels
-    public static void ModificarStats(){
+    public static void MostrarStats(){
         vista.nombrePersonajeSt1.setText(inventarioJugador.getnombre());
         vista.vida.setText(Integer.toString(inventarioJugador.getVida()));
         vista.defensa.setText(Integer.toString(inventarioJugador.getDefensa()));
@@ -239,5 +246,35 @@ public class ControladorLogica  implements ActionListener{
         vista.ataque.setText(Integer.toString(inventarioJugador.getAtaque()));
         vista.cantItems1.setText(Integer.toString(inventarioJugador.Size()));
         vista.dineroJugador.setText(Integer.toString(inventarioJugador.getDinero()));
+    }
+    
+    //Método encargado de verificar si el objeto seleccionado por el usuario es válido 
+    public static void Equipar(){
+        int index=vista.productosJugador.getSelectedRow();          //Captura la fila donde se dio un click
+        Object valueAt = vista.tablaPersonaje.getValueAt(index, 9); //Pasa el valor de la columna equipado a la variable
+        if (valueAt==null){                                         //Verifico si ya esta equipado
+            ModificarStats(index);
+        }
+        else{
+            JOptionPane.showMessageDialog(vista, "Ese item ya se encuentra equipado");
+        }
+    }    
+        
+    //Método utilizado para modificar las stats del personaje
+    public static void ModificarStats(int index){
+        
+        Object vtamaño = vista.tablaPersonaje.getValueAt(index, 7);     //Verifica si el item tiene tamaño
+
+        Item producto=(Item) inventarioJugador.get(index);
+        int modificador=producto.getPoder();
+        
+        if (vtamaño!=null){
+            inventarioJugador.setDefensa(modificador);                  //Si tiene tamaño modifica la defensa
+        }
+        else{
+            inventarioJugador.setVida(modificador);                     //Sino modifica la vida
+        }  
+        vista.tablaPersonaje.setValueAt(true, index, 9);                //Le asigna que ya esta asignado
+        MostrarStats(); 
     }
 }

@@ -29,15 +29,15 @@ public class Personaje {
         
     }
     
-    //Constructo que inicializa los atributos, recibe los items del inventario
+    //Constructor que inicializa los atributos, recibe los items del inventario
     Personaje(List<Item> items){
     
         //Inicializo los atributos con valores randoms
-        this.vida = (int)(Math.random()*50+25);
+        this.vida = (int)(Math.random()*20+10);
         this.dinero =(int)(Math.random()*18000+10000);
-        this.agilidad =(int)(Math.random()*78+12);
-        this.ataque = (int)(Math.random()*70+30);
-        this.defensa = (int)(Math.random()*80+15);
+        this.agilidad =(int)(Math.random()*20+10);
+        this.ataque = (int)(Math.random()*20+5);
+        this.defensa = (int)(Math.random()*20+11);
         this.nombre = JOptionPane.showInputDialog("Introduce el nombre del personaje");
         
         inventarioPersonaje=items;
@@ -57,14 +57,12 @@ public class Personaje {
     }
   
     //Metodo usado para modificar la vida del personaje
-    public void setVida(int vida) {
-        this.vida += vida;
+    public void setVida(int nuevavida) {
         
-        if (this.vida>100)
-            this.vida = this.vida -(this.vida-100);
-        
-        if (this.vida<0)
-            this.vida=0;
+        if (vida<=100){
+            vida+=nuevavida;
+            if (vida>100) vida=100;
+        }
     }
     
    
@@ -117,4 +115,12 @@ public class Personaje {
     public void setDinero(int precio){
         dinero+=precio;
     }
+    
+    public void setDefensa(int sumadefensa) {
+        if (defensa<=100){
+            defensa+=sumadefensa;
+            if (defensa>100) defensa=100;
+        }
+    }
+    
 }
