@@ -21,8 +21,10 @@ public class Personaje {
     private String nombre;
     private int agilidad ;
     private int ataque ;   
+    private int Iequipados;
     private List<Item> inventarioPersonaje;
     private int defensa;
+    
     
     //Constructor por defeto
     Personaje() {
@@ -39,7 +41,7 @@ public class Personaje {
         this.ataque = (int)(Math.random()*20+5);
         this.defensa = (int)(Math.random()*20+11);
         this.nombre = JOptionPane.showInputDialog("Introduce el nombre del personaje");
-        
+        this.Iequipados=0;
         inventarioPersonaje=items;
     }
     
@@ -108,8 +110,13 @@ public class Personaje {
     }
     
     //Metodo que devuelve cuantos items tiene el personaje
-    public int Size() {
+    public int getSize() {
         return inventarioPersonaje.size();
+    }
+    
+    //Metodo que devuelve cuantos items tiene el personaje
+    public int getEquipados() {
+        return Iequipados;
     }
     
     //Metoto usado para borrar un item, en que caso de que haya sido vendido
@@ -136,5 +143,18 @@ public class Personaje {
             if (defensa<0) defensa=0;    
         }    
     }
+    
+    //Metodo que devuelve cuantos items tiene el personaje
+    public void setEquipados(boolean condicion) {
+        
+        if (condicion==true){
+            Iequipados++;
+        }
+        else{
+            Iequipados--;
+        }
+        
+    }
+    
     
 }

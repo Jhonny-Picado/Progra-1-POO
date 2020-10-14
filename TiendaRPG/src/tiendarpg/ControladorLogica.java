@@ -123,6 +123,7 @@ public class ControladorLogica  implements ActionListener{
             AñadirRowPersonaje(producto);                           //Lo agrega a la tabla de la GUI
             //Verifica si el usuario deseo equipar el item que compro
             if(equipar == JOptionPane.YES_OPTION) {
+                inventarioJugador.setEquipados(true);
                 int ultRow=vista.tablaPersonaje.getRowCount()-1;        //Revisa el row donde quedo este item
                 vista.tablaPersonaje.setValueAt(true,ultRow , 9);       //Le indica que ya esta equipado
                 ModificarStats(ultRow, true);
@@ -203,7 +204,7 @@ public class ControladorLogica  implements ActionListener{
 
     //Metodo utilizado para mostrar la tabla del inventario del personaje, al cargar la GUI
     public static void MostrarTablaPersonaje(){
-        for (int i=0; i<inventarioJugador.Size(); i++){
+        for (int i=0; i<inventarioJugador.getSize(); i++){
             Item products =(Item) inventarioJugador.get(i);
             AñadirRowPersonaje(products);
         }    
@@ -246,8 +247,9 @@ public class ControladorLogica  implements ActionListener{
         vista.defensa.setText(Integer.toString(inventarioJugador.getDefensa()));
         vista.agilidad.setText(Integer.toString(inventarioJugador.getAgilidad()));
         vista.ataque.setText(Integer.toString(inventarioJugador.getAtaque()));
-        vista.cantItems1.setText(Integer.toString(inventarioJugador.Size()));
+        vista.cantItems1.setText(Integer.toString(inventarioJugador.getSize()));
         vista.dineroJugador.setText(Integer.toString(inventarioJugador.getDinero()));
+        vista.equipado.setText(Integer.toString(inventarioJugador.getEquipados()));
     }
     
     
@@ -256,7 +258,8 @@ public class ControladorLogica  implements ActionListener{
         
         Object valueAt = vista.tablaPersonaje.getValueAt(index, 9);
         if (valueAt!=null){ 
-             ModificarStats(index, false);
+            inventarioJugador.setEquipados(false);
+            ModificarStats(index, false);
         }
     }
     
@@ -266,6 +269,7 @@ public class ControladorLogica  implements ActionListener{
         int index=vista.productosJugador.getSelectedRow();          //Captura la fila donde se dio un click
         Object valueAt = vista.tablaPersonaje.getValueAt(index, 9); //Pasa el valor de la columna equipado a la variable
         if (valueAt==null){                                         //Verifico si ya esta equipado
+            inventarioJugador.setEquipados(true);
             ModificarStats(index, true);
         }
         else{
